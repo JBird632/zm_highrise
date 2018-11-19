@@ -1,0 +1,10 @@
+english
+sound/zone
+zone/snd
+zone_source/all
+zone_source/english
+zone_source/loc
+
+*.ff
+*.xpak
+*.png

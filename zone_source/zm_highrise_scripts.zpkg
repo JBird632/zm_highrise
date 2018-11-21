@@ -4,3 +4,4 @@ scriptparsetree,scripts/zm/zm_highrise.csc
 
 // Utility
 scriptparsetree,scripts/zm/utility/buyable.gsc
+scriptparsetree,scripts/zm/utility/trap.gsc

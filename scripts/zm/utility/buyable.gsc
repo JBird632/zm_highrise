@@ -9,22 +9,22 @@ class Buyable
 	var _trigger;
 	var _cost;
 	var _onPurchaseCallback;
+	var _canPurchase;
 	var _numPurchases;
 	var _maxPurchases;
 	var _hintstring;
 
-	function Initialize(trigger, cost)
+	function InitializeBuyable(trigger, cost)
 	{
-		Assert(IsEntity(trigger), "<trigger> should be a trigger entity");
-
+		_canPurchase = true;
 		_numPurchases = 0;
-		self SetCost(cost);
-		self SetupTrigger(trigger);
+		SetCost(cost);
+		SetTrigger(trigger);
 
 		if (isdefined(_hintstring))
-			self SetTriggerHintstring(_hintstring);
+			SetTriggerHintstring(_hintstring, true);
 
-		self thread WatchTrigger();
+		thread WatchTrigger();
 	}
 
 	function SetCost(cost)
@@ -35,8 +35,10 @@ class Buyable
 		_cost = cost;
 	}
 
-	function SetupTrigger(trigger)
+	function SetTrigger(trigger)
 	{
+		Assert(IsEntity(trigger), "<trigger> should be a trigger entity");
+
 		_trigger = trigger;
 		_trigger SetCursorHint("HINT_NOICON");
 		_trigger UseTriggerRequireLookAt();
@@ -45,13 +47,22 @@ class Buyable
 			_trigger SetHintString(_hintstring, _cost);
 	}
 
-	function SetTriggerHintstring(hintstring)
+	function SetTriggerHintstring(hintstring, includeCost)
 	{
 		Assert(IsString(hintstring), "<hintstring> should be a string value");
-		_hintstring = hintstring;
 
-		if (isdefined(_trigger))
-			_trigger SetHintString(_hintstring, _cost);
+		if (!isdefined(_hintstring))
+			_hintstring = hintstring;
+
+		if (isdefined(_trigger) && includeCost)
+			_trigger SetHintString(hintstring, _cost);
+		else if (isdefined(_trigger))
+			_trigger SetHintString(hintstring);
+	}
+
+	function SetCanPurchase(toggle)
+	{
+		_canPurchase = toggle;
 	}
 
 	function SetMaxPurchases(maxPurchases)
@@ -73,14 +84,14 @@ class Buyable
 			if (!IsPlayer(player))
 				continue;
 
-			if (self CanPlayerPurchase(player))
+			if (CanPlayerPurchase(player))
 			{
 				_numPurchases++;
 				player zm_score::minus_to_player_score(_cost);
 				zm_utility::play_sound_at_pos("purchase", _trigger.origin);
 
 				if (isdefined(_onPurchaseCallback))
-					self thread [[_onPurchaseCallback]](player);
+					thread [[_onPurchaseCallback]](player);
 
 				if (_numPurchases >= _maxPurchases && _maxPurchases > 0)
 				{
@@ -98,6 +109,6 @@ class Buyable
 
 	function CanPlayerPurchase(player)
 	{
-		return player zm_score::can_player_purchase(_cost);
+		return player zm_score::can_player_purchase(_cost) && _canPurchase;
 	}
 }

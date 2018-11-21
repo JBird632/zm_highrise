@@ -39,6 +39,7 @@ class Buyable
 	{
 		_trigger = trigger;
 		_trigger SetCursorHint("HINT_NOICON");
+		_trigger UseTriggerRequireLookAt();
 
 		if (isdefined(_hintstring))
 			_trigger SetHintString(_hintstring, _cost);

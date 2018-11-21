@@ -1,0 +1,6 @@
+// Base
+scriptparsetree,scripts/zm/zm_highrise.gsc
+scriptparsetree,scripts/zm/zm_highrise.csc
+
+// Utility
+scriptparsetree,scripts/zm/utility/buyable.gsc

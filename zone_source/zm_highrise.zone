@@ -5,6 +5,4 @@ material,luts_t7_default
 col_map,maps/zm/zm_highrise.d3dbsp
 gfx_map,maps/zm/zm_highrise.d3dbsp
 sound,zm_highrise
-scriptparsetree,scripts/zm/zm_highrise.gsc
-scriptparsetree,scripts/zm/zm_highrise.csc
-scriptparsetree,scripts/zm/utility/buyable.gsc
+include,zm_highrise_scripts

@@ -38,7 +38,9 @@
 #using scripts\zm\_zm_powerup_insta_kill;
 #using scripts\zm\_zm_powerup_nuke;
 #using scripts\zm\_zm_trap_electric;
+#using scripts\zm\_zm_perks;
 #using scripts\zm\zm_usermap;
+
 
 function main()
 {
@@ -49,6 +51,7 @@ function main()
 	init_zones[0] = "start_zone";
 	level thread zm_zonemgr::manage_zones(init_zones);
 	level.pathdist_type = PATHDIST_ORIGINAL;
+	zm_perks::spare_change();
 }
 
 function usermap_test_zone_init()
